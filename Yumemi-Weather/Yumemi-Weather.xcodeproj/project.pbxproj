@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		66439B79265E472900D1B3A9 /* YumemiWeather in Frameworks */ = {isa = PBXBuildFile; productRef = 66439B78265E472900D1B3A9 /* YumemiWeather */; };
 		66B0225E265CEF3D008F9553 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B0225D265CEF3D008F9553 /* AppDelegate.swift */; };
 		66B02260265CEF3D008F9553 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B0225F265CEF3D008F9553 /* SceneDelegate.swift */; };
 		66B02262265CEF3D008F9553 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B02261265CEF3D008F9553 /* ViewController.swift */; };
@@ -56,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66439B79265E472900D1B3A9 /* YumemiWeather in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +146,9 @@
 			dependencies = (
 			);
 			name = "Yumemi-Weather";
+			packageProductDependencies = (
+				66439B78265E472900D1B3A9 /* YumemiWeather */,
+			);
 			productName = "Yumemi-Weather";
 			productReference = 66B0225A265CEF3D008F9553 /* Yumemi-Weather.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +220,9 @@
 				Base,
 			);
 			mainGroup = 66B02251265CEF3D008F9553;
+			packageReferences = (
+				66439B77265E472900D1B3A9 /* XCRemoteSwiftPackageReference "ios-training" */,
+			);
 			productRefGroup = 66B0225B265CEF3D008F9553 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -593,6 +601,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		66439B77265E472900D1B3A9 /* XCRemoteSwiftPackageReference "ios-training" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:yumemi-inc/ios-training.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		66439B78265E472900D1B3A9 /* YumemiWeather */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 66439B77265E472900D1B3A9 /* XCRemoteSwiftPackageReference "ios-training" */;
+			productName = YumemiWeather;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 66B02252265CEF3D008F9553 /* Project object */;
 }
