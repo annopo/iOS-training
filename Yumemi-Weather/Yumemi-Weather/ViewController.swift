@@ -20,19 +20,45 @@ class ViewController: UIViewController {
     }
 
     @IBAction func tappedReloadButton(_ sender: Any) {
-        let weather = YumemiWeather.fetchWeather()
-        
-        switch weather {
-        case "sunny":
-            weatherImageView.image = UIImage(named: "sunny")?.withRenderingMode(.alwaysTemplate)
-            weatherImageView.tintColor = UIColor.sunny()
-        case "cloudy":
-            weatherImageView.image = UIImage(named: "cloudy")?.withRenderingMode(.alwaysTemplate)
-            weatherImageView.tintColor = UIColor.cloudy()
-        case "rainy":
-            weatherImageView.image = UIImage(named: "rainy")?.withRenderingMode(.alwaysTemplate)
-            weatherImageView.tintColor = UIColor.rainy()
-        default:
+
+        do {
+            let weather = try YumemiWeather.fetchWeather(at: "Tokyo")
+            switch weather {
+                case "sunny":
+                    weatherImageView.image = UIImage(named: "sunny")?.withRenderingMode(.alwaysTemplate)
+                    weatherImageView.tintColor = UIColor.sunny()
+                case "cloudy":
+                    weatherImageView.image = UIImage(named: "cloudy")?.withRenderingMode(.alwaysTemplate)
+                    weatherImageView.tintColor = UIColor.cloudy()
+                case "rainy":
+                    weatherImageView.image = UIImage(named: "rainy")?.withRenderingMode(.alwaysTemplate)
+                    weatherImageView.tintColor = UIColor.rainy()
+                default:
+                    print("error")
+            }
+        } catch YumemiWeatherError.unknownError {
+            let alert: UIAlertController = UIAlertController(title: "Unknown error", message: "予期しないエラーが発生しました", preferredStyle: UIAlertController.Style.alert)
+
+            let cancelAction: UIAlertAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler:  {
+                    (action: UIAlertAction!) -> Void in
+                    print("unknown error")
+            })
+                
+            alert.addAction(cancelAction)
+                
+            present(alert, animated: true, completion: nil)
+        } catch YumemiWeatherError.invalidParameterError {
+            let alert: UIAlertController = UIAlertController(title: "Invalid parameter error", message: "パラメータが正しくありません", preferredStyle: UIAlertController.Style.alert)
+
+            let cancelAction: UIAlertAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler:  {
+                (action: UIAlertAction!) -> Void in
+                print("invalid parameter error")
+            })
+            
+            alert.addAction(cancelAction)
+            
+            present(alert, animated: true, completion: nil)
+        } catch {
             print("error")
         }
     }
