@@ -19,8 +19,20 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-    @IBAction func tappedReloadButton(_ sender: Any) {
+    private func showAlert(title: String, message: String) {
+        let alert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
 
+        let cancelAction: UIAlertAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler:  {
+                (action: UIAlertAction!) -> Void in
+                print(title)
+        })
+            
+        alert.addAction(cancelAction)
+            
+        present(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func tappedReloadButton(_ sender: Any) {
         do {
             let weather = try YumemiWeather.fetchWeather(at: "Tokyo")
             switch weather {
@@ -37,29 +49,11 @@ class ViewController: UIViewController {
                     print("error")
             }
         } catch YumemiWeatherError.unknownError {
-            let alert: UIAlertController = UIAlertController(title: "Unknown error", message: "予期しないエラーが発生しました", preferredStyle: UIAlertController.Style.alert)
-
-            let cancelAction: UIAlertAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler:  {
-                    (action: UIAlertAction!) -> Void in
-                    print("unknown error")
-            })
-                
-            alert.addAction(cancelAction)
-                
-            present(alert, animated: true, completion: nil)
+            showAlert(title: "Unknown error", message: "予期しないエラーが発生しました。")
         } catch YumemiWeatherError.invalidParameterError {
-            let alert: UIAlertController = UIAlertController(title: "Invalid parameter error", message: "パラメータが正しくありません", preferredStyle: UIAlertController.Style.alert)
-
-            let cancelAction: UIAlertAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler:  {
-                (action: UIAlertAction!) -> Void in
-                print("invalid parameter error")
-            })
-            
-            alert.addAction(cancelAction)
-            
-            present(alert, animated: true, completion: nil)
+            showAlert(title: "Invalid parameter error", message: "パラメータが正しくありません。")
         } catch {
-            print("error")
+            showAlert(title: "Error", message: "エラーが発生しました。")
         }
     }
 }
