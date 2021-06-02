@@ -13,6 +13,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var weatherImageView: UIImageView!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var reloadButton: UIButton!
+    @IBOutlet weak var minTempLabel: UILabel!
+    @IBOutlet weak var maxTempLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,20 +23,54 @@ class ViewController: UIViewController {
 
     private func showAlert(title: String, message: String) {
         let alert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
-
         let cancelAction: UIAlertAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler:  {
                 (action: UIAlertAction!) -> Void in
                 print(title)
         })
-            
         alert.addAction(cancelAction)
-            
         present(alert, animated: true, completion: nil)
     }
     
+    private func changeLabelText(max: Int?, min: Int?) {
+        guard let maxTemp = max else {
+            print("nil")
+            return
+        }
+        maxTempLabel.text = String(maxTemp)
+        
+        guard let minTemp = min else {
+            print("nil")
+            return
+        }
+        minTempLabel.text = String(minTemp)
+    }
+    
     @IBAction func tappedReloadButton(_ sender: Any) {
+        
+        struct Parameter: Codable {
+            let area: String
+            let date: String
+        }
+
+        let parameter = Parameter(area: "Tokyo", date: "2020-04-01T12:00:00+09:00")
+
+        let encoder = JSONEncoder()
+        guard let jsonValue = try? encoder.encode(parameter) else {
+            assertionFailure("Failed to encode to JSON.")
+            return
+        }
+
+        let jsonParameter = String(bytes: jsonValue, encoding: .utf8)!
+ 
         do {
-            let weather = try YumemiWeather.fetchWeather(at: "Tokyo")
+            let jsonString: String = try YumemiWeather.fetchWeather(jsonParameter)
+            let weatherData: Data = jsonString.data(using: String.Encoding.utf8)!
+            let items = try JSONSerialization.jsonObject(with: weatherData) as? Dictionary<String, Any>
+            let maxTemp = items?["max_temp"] as? Int
+            let minTemp = items?["min_temp"] as? Int
+            let weather = items?["weather"] as? String
+            
+            changeLabelText(max: maxTemp, min: minTemp)
             switch weather {
                 case "sunny":
                     weatherImageView.image = UIImage(named: "sunny")?.withRenderingMode(.alwaysTemplate)
@@ -48,6 +84,7 @@ class ViewController: UIViewController {
                 default:
                     print("error")
             }
+            
         } catch YumemiWeatherError.unknownError {
             showAlert(title: "Unknown error", message: "予期しないエラーが発生しました。")
         } catch YumemiWeatherError.invalidParameterError {
@@ -68,6 +105,6 @@ extension UIColor{
     }
 
     static func rainy()->UIColor{
-        return UIColor(red: 51/255, green: 204/255, blue: 255/255, alpha: 1.0)
+        return UIColor(red: 65/255, green: 105/255, blue: 225/255, alpha: 1.0)
     }
 }
