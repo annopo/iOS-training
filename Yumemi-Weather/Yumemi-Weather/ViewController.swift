@@ -61,17 +61,27 @@ class ViewController: UIViewController {
         }
 
         let jsonParameter = String(bytes: jsonValue, encoding: .utf8)!
- 
-        do {
-            let jsonString: String = try YumemiWeather.fetchWeather(jsonParameter)
-            let weatherData: Data = jsonString.data(using: String.Encoding.utf8)!
-            let items = try JSONSerialization.jsonObject(with: weatherData) as? Dictionary<String, Any>
-            let maxTemp = items?["max_temp"] as? Int
-            let minTemp = items?["min_temp"] as? Int
-            let weather = items?["weather"] as? String
+        
+        struct WeatherInfo: Codable {
+            let maxTemp: Int
+            let minTemp: Int
+            let weather: String
             
-            changeLabelText(max: maxTemp, min: minTemp)
-            switch weather {
+            enum CodingKeys: String, CodingKey {
+                case maxTemp = "max_temp"
+                case minTemp = "min_temp"
+                case weather
+            }
+        }
+        
+        let decoder: JSONDecoder = JSONDecoder()
+        do {
+            let jsonString = try YumemiWeather.fetchWeather(jsonParameter)
+            let jsonData = jsonString.data(using: .utf8)!
+            let weatherInfo = try decoder.decode(WeatherInfo.self, from: jsonData)
+    
+            changeLabelText(max: weatherInfo.maxTemp, min: weatherInfo.minTemp)
+            switch weatherInfo.weather {
                 case "sunny":
                     weatherImageView.image = UIImage(named: "sunny")?.withRenderingMode(.alwaysTemplate)
                     weatherImageView.tintColor = UIColor.sunny()
@@ -84,7 +94,6 @@ class ViewController: UIViewController {
                 default:
                     print("error")
             }
-            
         } catch YumemiWeatherError.unknownError {
             showAlert(title: "Unknown error", message: "予期しないエラーが発生しました。")
         } catch YumemiWeatherError.invalidParameterError {
