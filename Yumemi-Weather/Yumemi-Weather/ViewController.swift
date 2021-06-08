@@ -106,12 +106,6 @@ class ViewController: UIViewController {
     @IBAction func tappedCloseButton(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        presentingViewController?.beginAppearanceTransition(true, animated: animated)
-        presentingViewController?.endAppearanceTransition()
-    }
 }
 
 extension UIColor{
