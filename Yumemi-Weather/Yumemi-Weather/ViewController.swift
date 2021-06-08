@@ -102,6 +102,10 @@ class ViewController: UIViewController {
             showAlert(title: "Error", message: "エラーが発生しました。")
         }
     }
+    
+    @IBAction func tappedCloseButton(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
 }
 
 extension UIColor{

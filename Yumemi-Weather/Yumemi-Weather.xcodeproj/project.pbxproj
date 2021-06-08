@@ -16,6 +16,8 @@
 		66B0226A265CEF3F008F9553 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66B02268265CEF3F008F9553 /* LaunchScreen.storyboard */; };
 		66B02275265CEF3F008F9553 /* Yumemi_WeatherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B02274265CEF3F008F9553 /* Yumemi_WeatherTests.swift */; };
 		66B02280265CEF40008F9553 /* Yumemi_WeatherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B0227F265CEF40008F9553 /* Yumemi_WeatherUITests.swift */; };
+		66E5A2732668D03100A0BADD /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E5A2722668D03100A0BADD /* FirstViewController.swift */; };
+		66E5A27B2668D05D00A0BADD /* First.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66E5A27A2668D05D00A0BADD /* First.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +52,8 @@
 		66B0227B265CEF40008F9553 /* Yumemi-WeatherUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Yumemi-WeatherUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		66B0227F265CEF40008F9553 /* Yumemi_WeatherUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Yumemi_WeatherUITests.swift; sourceTree = "<group>"; };
 		66B02281265CEF40008F9553 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		66E5A2722668D03100A0BADD /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
+		66E5A27A2668D05D00A0BADD /* First.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = First.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +108,8 @@
 				66B0225D265CEF3D008F9553 /* AppDelegate.swift */,
 				66B0225F265CEF3D008F9553 /* SceneDelegate.swift */,
 				66B02261265CEF3D008F9553 /* ViewController.swift */,
+				66E5A2722668D03100A0BADD /* FirstViewController.swift */,
+				66E5A27A2668D05D00A0BADD /* First.storyboard */,
 				66B02263265CEF3D008F9553 /* Main.storyboard */,
 				66B02266265CEF3F008F9553 /* Assets.xcassets */,
 				66B02268265CEF3F008F9553 /* LaunchScreen.storyboard */,
@@ -242,6 +248,7 @@
 				66B0226A265CEF3F008F9553 /* LaunchScreen.storyboard in Resources */,
 				66B02267265CEF3F008F9553 /* Assets.xcassets in Resources */,
 				66B02265265CEF3D008F9553 /* Main.storyboard in Resources */,
+				66E5A27B2668D05D00A0BADD /* First.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,6 +276,7 @@
 				66B02262265CEF3D008F9553 /* ViewController.swift in Sources */,
 				66B0225E265CEF3D008F9553 /* AppDelegate.swift in Sources */,
 				66B02260265CEF3D008F9553 /* SceneDelegate.swift in Sources */,
+				66E5A2732668D03100A0BADD /* FirstViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
