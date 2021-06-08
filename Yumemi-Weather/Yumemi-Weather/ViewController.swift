@@ -19,6 +19,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.viewWillEnterForeground(_:)), name:UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.viewDidEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
 
     private func showAlert(title: String, message: String) {
@@ -45,8 +47,7 @@ class ViewController: UIViewController {
         minTempLabel.text = String(minTemp)
     }
     
-    @IBAction func tappedReloadButton(_ sender: Any) {
-        
+    private func reloadWeather() {
         struct Parameter: Codable {
             let area: String
             let date: String
@@ -79,7 +80,7 @@ class ViewController: UIViewController {
             let jsonString = try YumemiWeather.fetchWeather(jsonParameter)
             let jsonData = jsonString.data(using: .utf8)!
             let weatherInfo = try decoder.decode(WeatherInfo.self, from: jsonData)
-    
+
             changeLabelText(max: weatherInfo.maxTemp, min: weatherInfo.minTemp)
             switch weatherInfo.weather {
                 case "sunny":
@@ -103,8 +104,29 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func tappedReloadButton(_ sender: Any) {
+        reloadWeather()
+    }
+    
     @IBAction func tappedCloseButton(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    @objc func viewWillEnterForeground(_ notification: Notification?) {
+        if (self.isViewLoaded && (self.view.window != nil)) {
+            print("foreground")
+            reloadWeather()
+        }
+    }
+    
+    @objc func viewDidEnterBackground(_ notification: Notification?) {
+        if (self.isViewLoaded && (self.view.window != nil)) {
+            print("background")
+        }
     }
 }
 
@@ -120,4 +142,8 @@ extension UIColor{
     static func rainy()->UIColor{
         return UIColor(red: 65/255, green: 105/255, blue: 225/255, alpha: 1.0)
     }
+}
+
+extension Notification.Name {
+    static let notifyName = Notification.Name("notifyName")
 }
