@@ -20,7 +20,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.viewWillEnterForeground(_:)), name:UIApplication.willEnterForegroundNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.viewDidEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
 
     private func showAlert(title: String, message: String) {
@@ -112,20 +111,10 @@ class ViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
     @objc func viewWillEnterForeground(_ notification: Notification?) {
         if (self.isViewLoaded && (self.view.window != nil)) {
             print("foreground")
             reloadWeather()
-        }
-    }
-    
-    @objc func viewDidEnterBackground(_ notification: Notification?) {
-        if (self.isViewLoaded && (self.view.window != nil)) {
-            print("background")
         }
     }
 }
@@ -142,8 +131,4 @@ extension UIColor{
     static func rainy()->UIColor{
         return UIColor(red: 65/255, green: 105/255, blue: 225/255, alpha: 1.0)
     }
-}
-
-extension Notification.Name {
-    static let notifyName = Notification.Name("notifyName")
 }
