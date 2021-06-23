@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		66439B79265E472900D1B3A9 /* YumemiWeather in Frameworks */ = {isa = PBXBuildFile; productRef = 66439B78265E472900D1B3A9 /* YumemiWeather */; };
+		6662CBB0267091250023FCDF /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6662CBAF267091250023FCDF /* WeatherModel.swift */; };
+		6662CBB526709EFF0023FCDF /* WeatherInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6662CBB426709EFF0023FCDF /* WeatherInfo.swift */; };
+		6662CBBA26709FE50023FCDF /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6662CBB926709FE50023FCDF /* Color.swift */; };
+		6662CBBF2671D7600023FCDF /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6662CBBE2671D7600023FCDF /* Request.swift */; };
 		66B0225E265CEF3D008F9553 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B0225D265CEF3D008F9553 /* AppDelegate.swift */; };
 		66B02260265CEF3D008F9553 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B0225F265CEF3D008F9553 /* SceneDelegate.swift */; };
 		66B02262265CEF3D008F9553 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B02261265CEF3D008F9553 /* ViewController.swift */; };
@@ -38,6 +42,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6662CBAF267091250023FCDF /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
+		6662CBB426709EFF0023FCDF /* WeatherInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInfo.swift; sourceTree = "<group>"; };
+		6662CBB926709FE50023FCDF /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		6662CBBE2671D7600023FCDF /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		66B0225A265CEF3D008F9553 /* Yumemi-Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Yumemi-Weather.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		66B0225D265CEF3D008F9553 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66B0225F265CEF3D008F9553 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -108,6 +116,10 @@
 				66B0225D265CEF3D008F9553 /* AppDelegate.swift */,
 				66B0225F265CEF3D008F9553 /* SceneDelegate.swift */,
 				66B02261265CEF3D008F9553 /* ViewController.swift */,
+				6662CBB926709FE50023FCDF /* Color.swift */,
+				6662CBBE2671D7600023FCDF /* Request.swift */,
+				6662CBAF267091250023FCDF /* WeatherModel.swift */,
+				6662CBB426709EFF0023FCDF /* WeatherInfo.swift */,
 				66E5A2722668D03100A0BADD /* FirstViewController.swift */,
 				66E5A27A2668D05D00A0BADD /* First.storyboard */,
 				66B02263265CEF3D008F9553 /* Main.storyboard */,
@@ -274,9 +286,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				66B02262265CEF3D008F9553 /* ViewController.swift in Sources */,
+				6662CBBF2671D7600023FCDF /* Request.swift in Sources */,
 				66B0225E265CEF3D008F9553 /* AppDelegate.swift in Sources */,
+				6662CBBA26709FE50023FCDF /* Color.swift in Sources */,
+				6662CBB526709EFF0023FCDF /* WeatherInfo.swift in Sources */,
 				66B02260265CEF3D008F9553 /* SceneDelegate.swift in Sources */,
 				66E5A2732668D03100A0BADD /* FirstViewController.swift in Sources */,
+				6662CBB0267091250023FCDF /* WeatherModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

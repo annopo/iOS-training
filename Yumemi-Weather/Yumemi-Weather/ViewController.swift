@@ -46,40 +46,14 @@ class ViewController: UIViewController {
     }
     
     private func reloadWeather() {
-        struct Parameter: Codable {
-            let area: String
-            let date: String
-        }
-
-        let parameter = Parameter(area: "Tokyo", date: "2020-04-01T12:00:00+09:00")
-
-        let encoder = JSONEncoder()
-        guard let jsonValue = try? encoder.encode(parameter) else {
-            assertionFailure("Failed to encode to JSON.")
-            return
-        }
-
-        let jsonParameter = String(bytes: jsonValue, encoding: .utf8)!
         
-        struct WeatherInfo: Codable {
-            let maxTemp: Int
-            let minTemp: Int
-            let weather: String
-            
-            enum CodingKeys: String, CodingKey {
-                case maxTemp = "max_temp"
-                case minTemp = "min_temp"
-                case weather
-            }
-        }
-        
-        let decoder: JSONDecoder = JSONDecoder()
-        do {
-            let jsonString = try YumemiWeather.fetchWeather(jsonParameter)
-            let jsonData = jsonString.data(using: .utf8)!
-            let weatherInfo = try decoder.decode(WeatherInfo.self, from: jsonData)
-
+        let weatherModelImpl = WeatherModelImpl()
+        let request = Request(area: "Tokyo", date: "2020-04-01T12:00:00+09:00")
+        let result = weatherModelImpl.getWeather(request: request)
+        switch result {
+        case .success(let weatherInfo):
             changeLabelText(max: weatherInfo.maxTemp, min: weatherInfo.minTemp)
+            
             switch weatherInfo.weather {
                 case "sunny":
                     weatherImageView.image = UIImage(named: "sunny")?.withRenderingMode(.alwaysTemplate)
@@ -93,12 +67,18 @@ class ViewController: UIViewController {
                 default:
                     print("error")
             }
-        } catch YumemiWeatherError.unknownError {
-            showAlert(title: "Unknown error", message: "予期しないエラーが発生しました。")
-        } catch YumemiWeatherError.invalidParameterError {
-            showAlert(title: "Invalid parameter error", message: "パラメータが正しくありません。")
-        } catch {
-            showAlert(title: "Error", message: "エラーが発生しました。")
+            
+        case .failure(let error):
+            if let yumemiWeatherError = error as? YumemiWeatherError {
+                switch yumemiWeatherError {
+                case YumemiWeatherError.unknownError:
+                    showAlert(title: "Unknown error", message: "予期しないエラーが発生しました。")
+                case YumemiWeatherError.invalidParameterError:
+                    showAlert(title: "Invalid parameter error", message: "パラメータが正しくありません。")
+                }
+            } else {
+                showAlert(title: "Unknown error", message: "予期しないエラーが発生しました。")
+            }
         }
     }
     
@@ -113,19 +93,5 @@ class ViewController: UIViewController {
     @objc func viewWillEnterForeground(_ notification: Notification?) {
         print("foreground")
         reloadWeather()
-    }
-}
-
-extension UIColor{
-    static func sunny()->UIColor {
-        return UIColor(red: 255/255, green: 153/255, blue: 0/255, alpha: 1.0)
-    }
-
-    static func cloudy()->UIColor{
-        return UIColor.lightGray
-    }
-
-    static func rainy()->UIColor{
-        return UIColor(red: 65/255, green: 105/255, blue: 225/255, alpha: 1.0)
     }
 }
