@@ -9,11 +9,11 @@ import Foundation
 import YumemiWeather
 
 protocol WeatherModel {
-    func getWeather(request: Request) -> Result<WeatherInfo, Error>
+    func getWeather(request: Request) throws -> WeatherInfo?
 }
 
 class WeatherModelImpl: WeatherModel {
-   
+    
     func encodeRequest(from request: Request) throws -> String {
         let encoder = JSONEncoder()
         
@@ -24,15 +24,13 @@ class WeatherModelImpl: WeatherModel {
         return requestJsonString
     }
     
-    func getWeather(request: Request) -> Result<WeatherInfo, Error> {
-        do {
-            let jsonString = try YumemiWeather.fetchWeather(encodeRequest(from: request))
-            let jsonData = jsonString.data(using: .utf8)!
-            let weatherInfo = try JSONDecoder().decode(WeatherInfo.self, from: jsonData)
-            return .success(weatherInfo)
-        } catch let error {
-            return .failure(error)
+    func getWeather(request: Request) throws -> WeatherInfo? {
+        guard let jsonString = try? YumemiWeather.fetchWeather(encodeRequest(from: request)),
+              let jsonData = jsonString.data(using: .utf8),
+              let weatherInfo = try? JSONDecoder().decode(WeatherInfo.self, from: jsonData) else {
+            throw YumemiWeatherError.unknownError
         }
+        return weatherInfo
     }
-    
+
 }

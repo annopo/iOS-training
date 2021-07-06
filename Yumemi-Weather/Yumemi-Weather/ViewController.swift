@@ -10,6 +10,8 @@ import YumemiWeather
 
 class ViewController: UIViewController {
     
+    var weatherModelImpl: WeatherModel?
+    
     @IBOutlet weak var weatherImageView: UIImageView!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var reloadButton: UIButton!
@@ -18,9 +20,13 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.viewWillEnterForeground(_:)), name:UIApplication.willEnterForegroundNotification, object: nil)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reloadWeather()
+    }
+    
     private func showAlert(title: String, message: String) {
         let alert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
         let cancelAction: UIAlertAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler:  {
@@ -33,52 +39,51 @@ class ViewController: UIViewController {
     
     private func changeLabelText(max: Int?, min: Int?) {
         guard let maxTemp = max else {
-            print("nil")
             return
         }
         maxTempLabel.text = String(maxTemp)
         
         guard let minTemp = min else {
-            print("nil")
             return
         }
         minTempLabel.text = String(minTemp)
     }
     
-    private func reloadWeather() {
+    private func changeImageView(weather: String?) {
+        guard let weatherView = weather else {
+            return
+        }
         
-        let weatherModelImpl = WeatherModelImpl()
+        weatherImageView.image = UIImage(named: weatherView)?.withRenderingMode(.alwaysTemplate)
+        
+        switch weatherView {
+        case "sunny":
+            weatherImageView.tintColor = UIColor.sunny()
+        case "cloudy":
+            weatherImageView.image = UIImage(named: "cloudy")?.withRenderingMode(.alwaysTemplate)
+            weatherImageView.tintColor = UIColor.cloudy()
+        case "rainy":
+            weatherImageView.image = UIImage(named: "rainy")?.withRenderingMode(.alwaysTemplate)
+            weatherImageView.tintColor = UIColor.rainy()
+        default:
+            print("error")
+        }
+    }
+    
+    func reloadWeather() {
         let request = Request(area: "Tokyo", date: "2020-04-01T12:00:00+09:00")
-        let result = weatherModelImpl.getWeather(request: request)
-        switch result {
-        case .success(let weatherInfo):
-            changeLabelText(max: weatherInfo.maxTemp, min: weatherInfo.minTemp)
+        do {
+            let weatherInfo = try weatherModelImpl?.getWeather(request: request)
+
+            changeLabelText(max: weatherInfo?.maxTemp, min: weatherInfo?.minTemp)
+            changeImageView(weather: weatherInfo?.weather)
             
-            switch weatherInfo.weather {
-                case "sunny":
-                    weatherImageView.image = UIImage(named: "sunny")?.withRenderingMode(.alwaysTemplate)
-                    weatherImageView.tintColor = UIColor.sunny()
-                case "cloudy":
-                    weatherImageView.image = UIImage(named: "cloudy")?.withRenderingMode(.alwaysTemplate)
-                    weatherImageView.tintColor = UIColor.cloudy()
-                case "rainy":
-                    weatherImageView.image = UIImage(named: "rainy")?.withRenderingMode(.alwaysTemplate)
-                    weatherImageView.tintColor = UIColor.rainy()
-                default:
-                    print("error")
-            }
-            
-        case .failure(let error):
-            if let yumemiWeatherError = error as? YumemiWeatherError {
-                switch yumemiWeatherError {
-                case YumemiWeatherError.unknownError:
-                    showAlert(title: "Unknown error", message: "予期しないエラーが発生しました。")
-                case YumemiWeatherError.invalidParameterError:
-                    showAlert(title: "Invalid parameter error", message: "パラメータが正しくありません。")
-                }
-            } else {
-                showAlert(title: "Unknown error", message: "予期しないエラーが発生しました。")
-            }
+        } catch YumemiWeatherError.unknownError {
+            showAlert(title: "Unknown error", message: "予期しないエラーが発生しました。")
+        } catch YumemiWeatherError.invalidParameterError {
+            showAlert(title: "Invalid parameter error", message: "パラメータが正しくありません。")
+        } catch {
+            showAlert(title: "Unknown error", message: "予期しないエラーが発生しました。")
         }
     }
     
@@ -88,10 +93,5 @@ class ViewController: UIViewController {
     
     @IBAction func tappedCloseButton(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
-    }
-    
-    @objc func viewWillEnterForeground(_ notification: Notification?) {
-        print("foreground")
-        reloadWeather()
     }
 }
