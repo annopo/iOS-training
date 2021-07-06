@@ -49,25 +49,24 @@ class ViewController: UIViewController {
         minTempLabel.text = String(minTemp)
     }
     
-    private func changeImageView(weather: String?) {
-        guard let weatherView = weather else {
-            return
-        }
-        
-        weatherImageView.image = UIImage(named: weatherView)?.withRenderingMode(.alwaysTemplate)
-        
-        switch weatherView {
+    private func returnWeatherTuple(weather: String) -> (weatherImage: UIImage?, weatherColor: UIColor?) {
+
+        switch weather {
         case "sunny":
-            weatherImageView.tintColor = UIColor.sunny()
+            return (weatherImage: UIImage(named: weather)?.withRenderingMode(.alwaysTemplate), weatherColor: UIColor.sunny())
         case "cloudy":
-            weatherImageView.image = UIImage(named: "cloudy")?.withRenderingMode(.alwaysTemplate)
-            weatherImageView.tintColor = UIColor.cloudy()
+            return (weatherImage: UIImage(named: weather)?.withRenderingMode(.alwaysTemplate), weatherColor: UIColor.cloudy())
         case "rainy":
-            weatherImageView.image = UIImage(named: "rainy")?.withRenderingMode(.alwaysTemplate)
-            weatherImageView.tintColor = UIColor.rainy()
+            return (weatherImage: UIImage(named: weather)?.withRenderingMode(.alwaysTemplate), weatherColor: UIColor.rainy())
         default:
-            print("error")
+            return (nil, nil)
         }
+
+    }
+    
+    private func changeImageView(weather: String?) {
+        weatherImageView.image = returnWeatherTuple(weather: weather!).weatherImage
+        weatherImageView.tintColor = returnWeatherTuple(weather: weather!).weatherColor
     }
     
     func reloadWeather() {
