@@ -53,11 +53,11 @@ class ViewController: UIViewController {
 
         switch weather {
         case "sunny":
-            return (weatherImage: UIImage(named: weather)!.withRenderingMode(.alwaysTemplate), weatherColor: UIColor.sunny())
+            return (weatherImage: UIImage(named: weather)?.withRenderingMode(.alwaysTemplate), weatherColor: UIColor.sunny())
         case "cloudy":
-            return (weatherImage: UIImage(named: weather)!.withRenderingMode(.alwaysTemplate), weatherColor: UIColor.cloudy())
+            return (weatherImage: UIImage(named: weather)?.withRenderingMode(.alwaysTemplate), weatherColor: UIColor.cloudy())
         case "rainy":
-            return (weatherImage: UIImage(named: weather)!.withRenderingMode(.alwaysTemplate), weatherColor: UIColor.rainy())
+            return (weatherImage: UIImage(named: weather)?.withRenderingMode(.alwaysTemplate), weatherColor: UIColor.rainy())
         default:
             return (nil, nil)
         }
