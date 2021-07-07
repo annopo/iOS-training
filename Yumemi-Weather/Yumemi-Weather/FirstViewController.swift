@@ -13,8 +13,11 @@ class FirstViewController: UIViewController {
         super.viewDidAppear(animated)
         
         let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let viewController = storyboard.instantiateViewController(withIdentifier: "main")
+        guard let viewController = storyboard.instantiateViewController(withIdentifier: "main") as? ViewController else {
+            return
+        }
         viewController.modalPresentationStyle = .fullScreen
+        viewController.weatherModelImpl = WeatherModelImpl()
         self.present(viewController, animated: true, completion: nil)
     }
 }
