@@ -32,7 +32,7 @@ class WeatherModelImpl: WeatherModel {
                 let weatherInfo = try JSONDecoder().decode(WeatherInfo.self, from: jsonData!)
                 completion(.success(weatherInfo))
             } catch {
-                completion(.failure(YumemiWeatherError.unknownError))
+                completion(.failure(error as! YumemiWeatherError))
             }
         }
     }
