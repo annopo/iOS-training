@@ -74,7 +74,7 @@ class ViewController: UIViewController {
         weatherImageView.tintColor = weatherView.weatherColor
     }
     
-    private func handleWeather(result: Result<WeatherInfo, YumemiWeatherError>) {
+    private func handleWeather(result: Result<WeatherInfo, Error>) {
         switch result {
         case .success(let weatherInfo):
             self.changeLabelText(max: weatherInfo.maxTemp, min: weatherInfo.minTemp)
@@ -85,6 +85,8 @@ class ViewController: UIViewController {
                 self.showAlert(title: "Unknown error", message: "予期しないエラーが発生しました。")
             case YumemiWeatherError.invalidParameterError:
                 self.showAlert(title: "Invalid parameter error", message: "パラメータが正しくありません。")
+            default:
+                self.showAlert(title: "Unknown error", message: "予期しないエラーが発生しました。")
             }
         }
     }
