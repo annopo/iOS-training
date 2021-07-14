@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var reloadButton: UIButton!
     @IBOutlet weak var minTempLabel: UILabel!
     @IBOutlet weak var maxTempLabel: UILabel!
+    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,25 +74,35 @@ class ViewController: UIViewController {
         weatherImageView.tintColor = weatherView.weatherColor
     }
     
+    private func handleWeather(result: Result<WeatherInfo, YumemiWeatherError>) {
+        switch result {
+        case .success(let weatherInfo):
+            self.changeLabelText(max: weatherInfo.maxTemp, min: weatherInfo.minTemp)
+            self.changeImageView(weather: weatherInfo.weather)
+        case .failure(let error):
+            switch error {
+            case YumemiWeatherError.unknownError:
+                self.showAlert(title: "Unknown error", message: "予期しないエラーが発生しました。")
+            case YumemiWeatherError.invalidParameterError:
+                self.showAlert(title: "Invalid parameter error", message: "パラメータが正しくありません。")
+            }
+        }
+    }
+    
     func reloadWeather() {
         let request = Request(area: "Tokyo", date: "2020-04-01T12:00:00+09:00")
-        do {
-            let weatherInfo = try weatherModelImpl?.getWeather(request: request)
-
-            changeLabelText(max: weatherInfo?.maxTemp, min: weatherInfo?.minTemp)
-            changeImageView(weather: weatherInfo?.weather)
-            
-        } catch YumemiWeatherError.unknownError {
-            showAlert(title: "Unknown error", message: "予期しないエラーが発生しました。")
-        } catch YumemiWeatherError.invalidParameterError {
-            showAlert(title: "Invalid parameter error", message: "パラメータが正しくありません。")
-        } catch {
-            showAlert(title: "Unknown error", message: "予期しないエラーが発生しました。")
+        self.activityIndicatorView.startAnimating()
+        weatherModelImpl?.getWeather(request: request) { result in
+            DispatchQueue.main.async {
+                self.activityIndicatorView.stopAnimating()
+                self.activityIndicatorView.hidesWhenStopped = true
+                self.handleWeather(result: result)
+            }
         }
     }
     
     @IBAction func tappedReloadButton(_ sender: Any) {
-        reloadWeather()
+      reloadWeather()
     }
     
     @IBAction func tappedCloseButton(_ sender: Any) {

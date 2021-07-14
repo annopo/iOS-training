@@ -84,6 +84,10 @@
                                     <constraint firstAttribute="bottom" secondItem="YJn-da-R3g" secondAttribute="bottom" id="mmD-ib-9f0"/>
                                 </constraints>
                             </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="pqA-ir-zt7">
+                                <rect key="frame" x="197" y="596" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -97,6 +101,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="pqA-ir-zt7" id="9rL-I9-Llr"/>
                         <outlet property="closeButton" destination="yhn-Dt-7CS" id="aIN-Yr-1Jk"/>
                         <outlet property="maxTempLabel" destination="ili-Os-Ps3" id="E5f-Yy-GOd"/>
                         <outlet property="minTempLabel" destination="wBG-0D-OvJ" id="1GC-Ys-rbk"/>
